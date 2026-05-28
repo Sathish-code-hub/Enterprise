@@ -8,4 +8,5 @@ const UserSchema = new mongoose.Schema({
   records: [{ title: String, date: String, status: String }]
 });
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
+module.exports = User;
