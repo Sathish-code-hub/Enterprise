@@ -11,16 +11,13 @@ const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-console.log("ENV:", process.env.MONGODB_URI); // debug
 
-// DB Connection
 connectDB();
 
-// --- Seed Initial Dummy Data Safely ---
+
 async function seedDatabase() {
   try {
     const count = await User.countDocuments();
@@ -55,10 +52,10 @@ async function seedDatabase() {
 }
 seedDatabase();
 
-// Register Router Blocks with Frontend Matching Prefixes
-app.use('/api/auth', authRoutes);    // Maps to: /api/auth/login
-app.use('/api/users', recordRoutes); // Maps to: /api/users/:userId/records
-app.use('/api/admin', userRoutes);   // Maps to: /api/admin/users
+
+app.use('/api/auth', authRoutes);    
+app.use('/api/users', recordRoutes); 
+app.use('/api/admin', userRoutes);  
 
 app.get('/', (req, res) => {
   res.send("API Running");
