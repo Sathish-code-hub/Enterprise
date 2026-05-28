@@ -1,0 +1,108 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-50 px-4 sm:px-6 lg:px-8 font-sans relative overflow-hidden">
+  <div class="absolute w-100 h-100 bg-indigo-200/40 rounded-full blur-[100px] -top-20 -left-20 pointer-events-none"></div>
+  <div class="absolute w-100 h-100 bg-purple-200/40 rounded-full blur-[100px] -bottom-20 -right-20 pointer-events-none"></div>
+
+  <!-- Top-Center Humanised Toast Alert -->
+  @if (showToast) {
+    <div class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-3 bg-white border border-red-200 p-4 rounded-xl shadow-xl w-full max-w-md transition-all duration-300">
+      <div class="shrink-0 bg-red-50 text-red-500 rounded-lg p-2">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <div class="flex-1">
+        <p class="text-sm font-semibold text-slate-900">{{ toastMessage }}</p>
+      </div>
+      <button (click)="showToast = false" class="cursor-pointer text-slate-400 hover:text-slate-600 focus:outline-none p-1">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  }
+
+  <div class="max-w-md w-full space-y-8 bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-slate-200 relative z-10">
+    <div class="text-center">
+      <h2 class="mt-2 text-3xl font-extrabold tracking-tight bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+        Account Login
+      </h2>
+      <p class="mt-2 text-sm text-slate-500">Sign in to your account gateway</p>
+    </div>
+
+    <form class="mt-8 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="rounded-md space-y-5">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Username</label>
+          <input formControlName="userId" type="text" required class="appearance-none rounded-lg relative block w-full px-3 py-2.5 border border-slate-300 bg-slate-50/50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all placeholder-slate-400" placeholder="e.g. admin01 or user01">
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Password</label>
+          <div class="relative flex items-center">
+            <input 
+              formControlName="password" 
+              [type]="showPassword ? 'text' : 'password'" 
+              required 
+              class="appearance-none rounded-lg relative block w-full pl-3 pr-12 py-2.5 border border-slate-300 bg-slate-50/50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all placeholder-slate-400" 
+              placeholder="••••••••">
+            
+            <button 
+              type="button"
+              (click)="showPassword = !showPassword"
+              class="cursor-pointer absolute right-3 text-slate-400 hover:text-indigo-600 focus:outline-none select-none transition-colors"
+              aria-label="Toggle password visibility">
+              
+              @if (showPassword) {
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                </svg>
+              } @else {
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              }
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">System Role</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button 
+              type="button"
+              (click)="loginForm.patchValue({ role: 'General User' })"
+              [class]="loginForm.get('role')?.value === 'General User' 
+                ? 'w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-center border-2 border-indigo-600 bg-indigo-50 text-indigo-700 shadow-xs transition-all duration-150 cursor-pointer' 
+                : 'w-full py-2.5 px-4 rounded-lg text-sm font-medium text-center border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 transition-all duration-150 cursor-pointer'">
+              General User
+            </button>
+
+            <button 
+              type="button"
+              (click)="loginForm.patchValue({ role: 'Admin' })"
+              [class]="loginForm.get('role')?.value === 'Admin' 
+                ? 'w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-center border-2 border-purple-600 bg-purple-50 text-purple-700 shadow-xs transition-all duration-150 cursor-pointer' 
+                : 'w-full py-2.5 px-4 rounded-lg text-sm font-medium text-center border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 transition-all duration-150 cursor-pointer'">
+              Admin
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" [disabled]="loginForm.invalid || loading" class="cursor-pointer group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 shadow-md shadow-indigo-600/10 hover:shadow-indigo-600/20">
+          @if (loading) {
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <svg class="animate-spin h-5 w-5 text-white/70" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+          }
+          {{ loading ? 'Signing in...' : 'Sign In' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,59 +1,49 @@
-# App
+# Full-Stack User Portal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.12.
+A complete Single Page Application (SPA) built with an Angular frontend, Node.js/Express backend, and MongoDB database storage. This project demonstrates role-based layouts, asynchronous data loading, and a modular folder architecture.
 
-## Development server
+## Tech Stack
+- **Frontend**: Angular 18+ (Standalone Components)
+- **Styling**: Tailwind CSS
+- **Backend**: Node.js & Express
+- **Database**: MongoDB Atlas
 
-To start a local development server, run:
+## Features Implemented
+- **Login Portal**: Secure login view supporting "General User" and "Admin" roles with a custom show/hide password toggle.
+- **Dynamic Content**: Displays user-specific tables and histories depending on the authenticated role.
+- **Admin Management Panel**: An extra administrative data view that mounts only for logged-in Admins to review all registered users.
+- **API Delay Simulator**: A custom parameter engine on the dashboard where you can manually adjust response latency to test frontend loading states and spinners.
+- **Clean Architecture**: Decoupled folder structures separating models, controllers, routes, views, and services.
 
+---
+
+## How to Run the App Locally
+
+### 1. Start the Backend Server
+Open a terminal and navigate to your backend folder:
 ```bash
+cd app/backend
+npm install
+node app.js
+```
+*The server will boot on port 4000 and automatically seed sample database records into your MongoDB collection on its first run.*
+
+### 2. Start the Frontend App
+Open a second terminal window at your project root folder:
+```bash
+npm install
 ng serve
 ```
+Open your browser and navigate to: `http://localhost:4200`
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Test Accounts
+You can use these pre-seeded accounts to test different role features:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **General User**: 
+  - User ID: `user01`
+  - Password: `password123`
+- **Admin User**: 
+  - User ID: `admin01`
+  - Password: `password123`

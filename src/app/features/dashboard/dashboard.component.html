@@ -1,0 +1,100 @@
+<div class="min-h-screen bg-linear-to-br from-slate-50 via-zinc-100 to-slate-200 text-slate-800 font-sans relative overflow-x-hidden pb-12">
+  <div class="absolute w-96 h-96 bg-blue-400/10 rounded-full blur-[100px] -top-20 -left-20 pointer-events-none"></div>
+  <div class="absolute w-96 h-96 bg-purple-400/10 rounded-full blur-[100px] top-1/2 right-0 pointer-events-none"></div>
+
+  <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 py-4 flex flex-wrap justify-between items-center shadow-xs relative z-10">
+    <div class="flex items-center space-x-3">
+      <div class="h-3 w-3 bg-linear-to-r from-emerald-500 to-teal-600 rounded-full animate-pulse shadow-md shadow-emerald-500/30"></div>
+      <span class="text-xl font-bold tracking-tight bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">User Dashboard</span>
+    </div>
+    <div class="flex items-center space-x-6 mt-2 sm:mt-0">
+      <div class="text-right">
+        <p class="text-sm font-semibold text-slate-700">{{ currentUser?.name }}</p>
+        @if (currentUser?.role === 'Admin') {
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-linear-to-r from-purple-100 to-indigo-100 text-purple-700 border border-purple-200">
+            {{ currentUser?.role }}
+          </span>
+        } @else {
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-linear-to-r from-blue-100 to-cyan-100 text-blue-700 border border-blue-200">
+            {{ currentUser?.role }}
+          </span>
+        }
+      </div>
+      <button (click)="onLogout()" class="cursor-pointer px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all duration-200 shadow-xs bg-white">
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
+    <div class="bg-white border-l-4 border-l-indigo-600 border-y border-r border-slate-200 rounded-xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h3 class="text-lg font-bold text-slate-900 bg-linear-to-r from-slate-900 to-slate-700 bg-clip-text">API Delay Simulator</h3>
+        <p class="text-sm text-slate-500">Modify the parameter to test asynchronous page loading states.</p>
+      </div>
+      <div class="flex items-center space-x-3">
+        <label class="text-xs text-slate-500 font-mono tracking-wider">DELAY (MS):</label>
+        <input type="number" [(ngModel)]="apiDelaySetting" class="w-24 px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+        <button (click)="triggerControlledReload()" class="cursor-pointer px-4 py-1.5 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-sm font-semibold rounded-lg text-white shadow-md shadow-indigo-600/10 hover:shadow-indigo-600/20 transition-all duration-300">
+          Fetch Data
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8">
+      <div class="bg-white border border-slate-200 rounded-xl shadow-md overflow-hidden">
+        <div class="p-6 border-b border-slate-200 bg-linear-to-r from-slate-50 to-slate-100/50 flex justify-between items-center">
+          <h4 class="text-sm font-bold uppercase tracking-widest bg-linear-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Your Activity History</h4>
+          <span class="text-xs px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-600 font-mono">Scoped Logs</span>
+        </div>
+
+        @if (recordsLoading) {
+          <app-loader></app-loader>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-200">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Log Description Title</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Timestamp Checked</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Lifecycle Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 bg-white">
+                @for (item of userRecords; track item.title) {
+                  <tr class="hover:bg-slate-50 transition-colors duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">{{ item.title }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono">{{ item.date }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                      @if (item.status === 'Approved' || item.status === 'Healthy') {
+                        <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
+                          {{ item.status }}
+                        </span>
+                      } @else {
+                        <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-amber-50 text-amber-700 border border-amber-200 shadow-xs">
+                          {{ item.status }}
+                        </span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+
+      @if (currentUser?.role === 'Admin') {
+        @if (adminLoading) {
+          <div class="bg-white border border-slate-200 rounded-xl shadow-md p-6">
+            <app-loader></app-loader>
+          </div>
+        } @else {
+          <div class="bg-white border border-slate-200 rounded-xl shadow-md overflow-hidden">
+            <app-manage-users [users]="allUsersList"></app-manage-users>
+          </div>
+        }
+      }
+    </div>
+  </main>
+</div>
