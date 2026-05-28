@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://enterprise-seven-teal.vercel.app';
+  private apiUrl = 'https://enterprise-seven-teal.vercel.app/api/auth';
   private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser') || 'null'));
   
   public currentUser$ = this.currentUserSubject.asObservable();
