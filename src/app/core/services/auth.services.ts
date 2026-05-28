@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:4000/api/auth';
+  private apiUrl = 'https://enterprise-seven-teal.vercel.app';
   private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser') || 'null'));
   
   public currentUser$ = this.currentUserSubject.asObservable();
@@ -18,15 +18,16 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(credentials: any): Observable<any> {
+    login(credentials: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
-      map(response => {
+      map((response: any) => {
         localStorage.setItem('currentUser', JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
         return response;
       })
     );
   }
+
 
   logout() {
     localStorage.removeItem('currentUser');
