@@ -4,7 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const User = require('./models/user.model');
 
-// Mount Separated Architecture Routing Blocks
+
 const authRoutes = require('./routes/auth.routes');
 const recordRoutes = require('./routes/record.routes');
 const userRoutes = require('./routes/user.routes');
