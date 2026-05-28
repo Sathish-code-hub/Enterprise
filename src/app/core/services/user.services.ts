@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://enterprise-seven-teal.vercel.app/api/auth';
+  private apiUrl = 'https://enterprise-seven-teal.vercel.app/api';
 
   constructor(private http: HttpClient) {}
 
